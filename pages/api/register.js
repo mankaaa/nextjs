@@ -13,6 +13,14 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
+    // Validate password
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+    if (!passwordRegex.test(password)) {
+      return res
+        .status(400)
+        .json({ message: "Password does not meet requirements." });
+    }
+
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
